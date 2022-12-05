@@ -1,3 +1,17 @@
 .App {
   text-align: center;
 }
+
+.filters {
+  display: flex;
+}
+
+.buttons {
+  padding: 1rem;
+  border: none;
+}
+
+.buttons svg {
+  height: 2rem;
+  width: 2rem;
+}

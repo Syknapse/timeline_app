@@ -1,4 +1,8 @@
 import React from 'react'
+import { Button } from './components'
+import { Sort } from './icons'
+import { List } from './icons'
+import { Hourglass } from './icons'
 import styles from './App.module.css'
 
 const entries = [
@@ -20,9 +24,15 @@ function App() {
       <header>
         <h1>Timeline</h1>
         <div className={styles.filters}>
-          <button>Sort</button>
-          <button>View</button>
-          <button>Time Since</button>
+          <Button className={styles.buttons}>
+            <Sort />
+          </Button>
+          <Button className={styles.buttons}>
+            <List />
+          </Button>
+          <Button className={styles.buttons}>
+            <Hourglass />
+          </Button>
         </div>
       </header>
       <main>
@@ -34,6 +44,9 @@ function App() {
           </section>
         ))}
       </main>
+      <footer>
+        <p>Syk Houdeib 1998</p>
+      </footer>
     </div>
   )
 }
