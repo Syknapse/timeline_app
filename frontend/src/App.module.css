@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .filters {
@@ -14,4 +17,8 @@
 .buttons svg {
   height: 2rem;
   width: 2rem;
+}
+
+.footer {
+  margin-top: auto;
 }

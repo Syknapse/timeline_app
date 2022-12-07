@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from './components'
+import { TimeLapse } from './components'
+import { Timeline } from './components'
 import { Sort } from './icons'
 import { List } from './icons'
 import { Hourglass } from './icons'
@@ -12,13 +14,55 @@ const entries = [
     title: 'a chicken was born',
   },
   {
+    year: 1988,
+    type: 'life event',
+    title: '80s stuff',
+  },
+  {
     year: 2000,
+    type: 'Home',
+    title: 'MOved to Grimsby',
+  },
+  {
+    year: 1991,
+    type: 'life event',
+    title: 'a chicken was born',
+  },
+  {
+    year: 2012,
+    type: 'life event',
+    title: 'end of the world',
+  },
+  {
+    year: 2000,
+    type: 'Home',
+    title: 'MOved to Grimsby',
+  },
+  {
+    year: 1997,
+    type: 'life event',
+    title: 'a chicken was born',
+  },
+  {
+    year: 2012,
+    type: 'life event',
+    title: 'forgotten year',
+  },
+  {
+    year: 2001,
     type: 'Home',
     title: 'MOved to Grimsby',
   },
 ]
 
+enum ViewType {
+  Timeline,
+  Time_lapse,
+}
+
 function App() {
+  const [view, setView] = useState<ViewType>(ViewType.Timeline)
+
   return (
     <div className={styles.App}>
       <header>
@@ -30,21 +74,23 @@ function App() {
           <Button className={styles.buttons}>
             <List />
           </Button>
-          <Button className={styles.buttons}>
+          <Button
+            className={styles.buttons}
+            onClick={() => (view === ViewType.Timeline ? setView(ViewType.Time_lapse) : setView(ViewType.Timeline))}
+          >
             <Hourglass />
           </Button>
         </div>
       </header>
       <main>
-        {entries.map(entry => (
-          <section>
-            <div>{entry.year}</div>
-            <div>{entry.type}</div>
-            <div>{entry.title}</div>
-          </section>
-        ))}
+        {
+          {
+            [ViewType.Timeline]: <Timeline entries={entries} />,
+            [ViewType.Time_lapse]: <TimeLapse />,
+          }[view]
+        }
       </main>
-      <footer>
+      <footer className={styles.footer}>
         <p>Syk Houdeib 1998</p>
       </footer>
     </div>
