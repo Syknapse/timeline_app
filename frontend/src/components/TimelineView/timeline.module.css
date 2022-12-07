@@ -1,13 +1,75 @@
-.section {
+.root {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+}
+
+.root::after {
+  content: '';
+  position: absolute;
+  height: 160%;
+  border-left: 1rem solid rgb(131 255 76 / 90%);
+  top: -20px;
+  left: 80px;
+}
+
+.yearContainer {
+  width: 100%;
 }
 
 .year {
-  text-align: center;
-  width: 100%;
+  position: relative;
+  text-align: left;
+  width: 64px;
+  border: 3px solid red;
+  padding: 0.25rem;
+  font-weight: 700;
+}
+
+.year::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 3px);
+  right: -33px;
+  width: 30px;
+  border-top: 6px solid red;
 }
 
 .entry {
   display: flex;
+  margin-bottom: 1rem;
+}
+
+.date {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 72px;
+  text-align: right;
+  margin-right: 1rem;
+  padding: 0.25rem 1rem 0.25rem 0.25rem;
+}
+
+.entryBody {
+  position: relative;
+  display: flex;
+  border: 2px solid black;
+  height: 2rem;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.entryBody::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -26px;
+  width: 24px;
+  border-top: 3px solid black;
+}
+
+.entryBody.hasDate::after {
+  width: 36px;
+  left: -38px;
 }

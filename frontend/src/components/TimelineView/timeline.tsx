@@ -1,4 +1,5 @@
 import { IEntry } from '@models/entryModel'
+import clsx from 'clsx'
 import styles from './timeline.module.css'
 
 interface ITimelineProps {
@@ -27,12 +28,18 @@ const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
   return (
     <>
       {sortedByYears.map(yearGroup => (
-        <section className={styles.section}>
-          <h3 className={styles.year}>{yearGroup.year}</h3>
-          {yearGroup.entries.map(entry => (
-            <div className={styles.entry}>
-              <div>{entry.type}</div>
-              <div>{entry.title}</div>
+        <section key={yearGroup.year} className={styles.root}>
+          <div className={styles.yearContainer}>
+            <h3 className={styles.year}>{yearGroup.year}</h3>
+          </div>
+
+          {yearGroup.entries.map((entry, i) => (
+            <div key={`${entry.year}-${i}`} className={styles.entry}>
+              <div className={styles.date}>{entry.date}</div>
+              <div className={clsx(styles.entryBody, entry.date && styles.hasDate)}>
+                <div>{entry.type}</div>
+                <div>{entry.title}</div>
+              </div>
             </div>
           ))}
         </section>
