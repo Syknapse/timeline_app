@@ -19,6 +19,29 @@
   width: 2rem;
 }
 
+.main {
+  padding: 1rem;
+}
+
+.addButton {
+  position: fixed;
+  bottom: 3rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  background: white;
+}
+
+.addButton::after {
+  content: '';
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background: radial-gradient(#85b8d25c, #8591d25e, #baafdb61, #e687e15e);
+  border-radius: 50%;
+  z-index: -1;
+}
+
 .footer {
   margin-top: auto;
 }

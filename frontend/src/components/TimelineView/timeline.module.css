@@ -1,0 +1,13 @@
+.section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.year {
+  text-align: center;
+  width: 100%;
+}
+
+.entry {
+  display: flex;
+}
