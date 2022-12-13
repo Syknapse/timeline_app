@@ -1,12 +1,13 @@
 .root {
   display: none;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 1;
 }
 
 .root.open {
@@ -27,11 +28,75 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  width: 80%;
+  width: 100%;
+  height: 80%;
   max-width: 44rem;
   background: white;
   z-index: 1;
-  border-radius: 8px;
+  border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 11px 0 rgb(0 0 0 / 50%);
+  padding: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-evenly;
+}
+
+.form label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mediumField {
+  width: 12rem;
+}
+
+.form input,
+.form select,
+.form option {
+  height: 2rem;
+  border: none;
+}
+
+.form input {
+  border-bottom: 1px solid gray;
+}
+
+.rightAligned {
+  text-align: right;
+  padding-right: 0.5rem;
+}
+
+.wrapLabel {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrapLabel input {
+  width: 100%;
+}
+
+.year {
+  width: 12rem;
+}
+
+.year:valid {
+  border-bottom: 1px solid green;
+}
+
+.year:invalid {
+  border-bottom: 1px solid red;
+}
+
+.month {
+  margin-right: 1rem;
+}
+
+.submit {
+  height: 2rem;
 }

@@ -1,6 +1,10 @@
 export interface IEntry {
   year: number
-  date?: string
-  type: string
   title: string
+  day?: string
+  month?: string
+  color?: string
+  type?: string
+  subtitle?: string
+  description?: string
 }

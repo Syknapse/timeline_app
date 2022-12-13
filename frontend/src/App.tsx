@@ -13,7 +13,8 @@ import styles from './App.module.css'
 const entries = [
   {
     year: 1991,
-    date: '13 Feb',
+    day: '13',
+    month: 'Feb',
     type: 'life event',
     title: 'a chicken was born',
   },
@@ -29,13 +30,14 @@ const entries = [
   },
   {
     year: 1991,
-    date: 'Feb',
+    month: 'Feb',
     type: 'life event',
     title: 'scored a goal',
   },
   {
     year: 1991,
-    date: '21 Mar',
+    day: '21',
+    month: 'Mar',
     type: 'life event',
     title: 'pumpkin revolt',
   },
@@ -46,7 +48,8 @@ const entries = [
   },
   {
     year: 2000,
-    date: '17 Nov',
+    day: '17',
+    month: 'Nov',
     type: 'Home',
     title: 'ate spinach',
   },

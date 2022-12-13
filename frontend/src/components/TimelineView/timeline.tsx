@@ -35,8 +35,10 @@ const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
 
           {yearGroup.entries.map((entry, i) => (
             <div key={`${entry.year}-${i}`} className={styles.entry}>
-              <div className={styles.date}>{entry.date}</div>
-              <div className={clsx(styles.entryBody, entry.date && styles.hasDate)}>
+              <div className={styles.date}>
+                {entry.day} {entry.month}
+              </div>
+              <div className={clsx(styles.entryBody, (entry.day || entry.month) && styles.hasDate)}>
                 <div>{entry.type}</div>
                 <div>{entry.title}</div>
               </div>
