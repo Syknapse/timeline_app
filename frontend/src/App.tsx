@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import dayjs from 'dayjs'
 import { Button } from './components'
 import { TimeLapse } from './components'
 import { Timeline } from './components'
@@ -83,20 +84,6 @@ function App() {
     <div className={styles.App}>
       <header>
         <h1>Timeline</h1>
-        <div className={styles.filters}>
-          <Button className={styles.buttons}>
-            <Sort />
-          </Button>
-          <Button className={styles.buttons}>
-            <List />
-          </Button>
-          <Button
-            className={styles.buttons}
-            onClick={() => (view === ViewType.Timeline ? setView(ViewType.Time_lapse) : setView(ViewType.Timeline))}
-          >
-            <Hourglass />
-          </Button>
-        </div>
       </header>
       <main className={styles.main}>
         {
@@ -106,13 +93,24 @@ function App() {
           }[view]
         }
         <AddEntry isOpen={isOpenModal} close={() => setIsOpenModal(false)} />
-        <Button className={styles.addButton} isRound onClick={() => setIsOpenModal(!isOpenModal)}>
-          {isOpenModal ? <Cross /> : <Add />}
-        </Button>
       </main>
-      <footer className={styles.footer}>
-        <p>Syk Houdeib 1998</p>
+      <footer>
+        <p className={styles.footerText}>Syk Houdeib {dayjs().year()}</p>
       </footer>
+      <div className={styles.filters}>
+        <Button className={styles.buttons}>
+          <Sort />
+        </Button>
+        <Button
+          className={styles.buttons}
+          onClick={() => (view === ViewType.Timeline ? setView(ViewType.Time_lapse) : setView(ViewType.Timeline))}
+        >
+          <Hourglass />
+        </Button>
+      </div>
+      <Button className={styles.addButton} isRound onClick={() => setIsOpenModal(!isOpenModal)}>
+        {isOpenModal ? <Cross /> : <Add />}
+      </Button>
     </div>
   )
 }
