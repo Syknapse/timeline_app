@@ -63,6 +63,7 @@ header {
 .footerText {
   text-align: center;
   padding: 1rem;
+  border-top: 1px solid gray;
 }
 
 footer::after {

@@ -1,0 +1,5 @@
+export enum Types {
+  ADD_ENTRY = 'ADD_ENTRY',
+  VIEW_TIME_LAPSE = 'VIEW_TIME_LAPSE',
+  VIEW_TIMELINE = 'VIEW_TIMELINE',
+}

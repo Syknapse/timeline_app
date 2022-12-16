@@ -10,33 +10,27 @@ import { Button } from '../../components'
 interface IAddEntryProps {
   isOpen: boolean
   close: () => void
+  save: (entry: IEntry) => void
 }
 
 // const year2 = new Date(Date.UTC(1996)) // year to unix datestamp
 // const year4 = new Date(820454400000) // unix datestamp to date
 dayjs.extend(localeData)
 
-const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close }) => {
+const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
   const [entry, setEntry] = useState<IEntry>({ year: 0, title: '' })
   const [isYearValid, setIsYearValid] = useState(false)
   const daysInMonth = dayjs(`${entry.year}-${entry.month}-1`).daysInMonth()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(e.currentTarget.value)
+    close()
   }
 
   const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEntry({ ...entry, year: Number(e.currentTarget.value) })
     setIsYearValid(e.currentTarget.value.length === 4)
   }
-
-  console.log('entry: ', entry)
-  console.log('validity: ', {
-    isYearValid,
-    isTitelValid: entry.title.length > 0,
-    enableSave: isYearValid && entry.title.length > 0,
-  })
 
   return (
     <div className={clsx(styles.root, isOpen && styles.open)}>
@@ -132,7 +126,12 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close }) => {
               <option value="#ece414">yellow</option>
             </select>
           </label>
-          <Button className={styles.submit} disabled={!(isYearValid && entry.title.length > 0)}>
+          <Button
+            className={styles.submit}
+            type="submit"
+            onClick={() => save(entry)}
+            disabled={!(isYearValid && entry.title.length > 0)}
+          >
             Save
           </Button>
         </form>

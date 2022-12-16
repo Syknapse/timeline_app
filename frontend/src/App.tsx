@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
+import { Views } from './models/views'
+import { reducer, initialState } from './store/reducer'
+import { addEntry, changeViewTimeLapse, changeViewTimeline } from './store/actions'
 import dayjs from 'dayjs'
 import { Button } from './components'
 import { TimeLapse } from './components'
@@ -71,13 +74,8 @@ const entries = [
   },
 ]
 
-enum ViewType {
-  Timeline,
-  Time_lapse,
-}
-
 function App() {
-  const [view, setView] = useState<ViewType>(ViewType.Timeline)
+  const [state, dispatch] = useReducer(reducer, initialState)
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
   return (
@@ -88,11 +86,11 @@ function App() {
       <main className={styles.main}>
         {
           {
-            [ViewType.Timeline]: <Timeline entries={entries} />,
-            [ViewType.Time_lapse]: <TimeLapse />,
-          }[view]
+            [Views.TIMELINE]: <Timeline entries={entries} />,
+            [Views.TIME_LAPSE]: <TimeLapse />,
+          }[state.view]
         }
-        <AddEntry isOpen={isOpenModal} close={() => setIsOpenModal(false)} />
+        <AddEntry isOpen={isOpenModal} close={() => setIsOpenModal(false)} save={entry => dispatch(addEntry(entry))} />
       </main>
       <footer>
         <p className={styles.footerText}>Syk Houdeib {dayjs().year()}</p>
@@ -103,7 +101,9 @@ function App() {
         </Button>
         <Button
           className={styles.buttons}
-          onClick={() => (view === ViewType.Timeline ? setView(ViewType.Time_lapse) : setView(ViewType.Timeline))}
+          onClick={() =>
+            state.view === Views.TIMELINE ? dispatch(changeViewTimeLapse()) : dispatch(changeViewTimeline())
+          }
         >
           <Hourglass />
         </Button>
