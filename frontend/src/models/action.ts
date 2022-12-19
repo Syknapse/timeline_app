@@ -6,8 +6,14 @@ export type AddEntryAction = {
   payload: { entry: IEntry }
 }
 
+export type AddEntryVisibilityAction = {
+  type: Types.VISIBILITY_TOGGLE_ADD_ENTRY
+}
+
 export type ViewAction = {
   type: Types.VIEW_TIMELINE | Types.VIEW_TIME_LAPSE
 }
 
-export type AppAction = AddEntryAction | ViewAction
+export type UIAction = ViewAction | AddEntryVisibilityAction
+
+export type AppAction = AddEntryAction | UIAction

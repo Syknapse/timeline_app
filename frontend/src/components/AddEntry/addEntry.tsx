@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData'
@@ -6,6 +6,8 @@ import React from 'react'
 import styles from './addEntry.module.css'
 import { IEntry } from '@models/entryModel'
 import { Button } from '../../components'
+
+// import { UIContext } from '../../App'
 
 interface IAddEntryProps {
   isOpen: boolean
@@ -21,6 +23,8 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
   const [entry, setEntry] = useState<IEntry>({ year: 0, title: '' })
   const [isYearValid, setIsYearValid] = useState(false)
   const daysInMonth = dayjs(`${entry.year}-${entry.month}-1`).daysInMonth()
+
+  // const { state, dispatch } = useContext(UIContext)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

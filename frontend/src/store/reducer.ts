@@ -1,16 +1,14 @@
-import { IEntry } from '@models/entryModel'
 import { AppAction } from '@models/action'
+import { AppState } from '../models/state'
 import { Views } from '../models/views'
 import { Types } from './types'
 
-interface AppState {
-  entry: IEntry | null
-  view: Views
-}
-
 export const initialState: AppState = {
   entry: null,
-  view: Views.TIMELINE,
+  ui: {
+    view: Views.TIMELINE,
+    addEntryIsOpen: false,
+  },
 }
 
 export const reducer = (state: AppState, action: AppAction) => {
@@ -23,12 +21,26 @@ export const reducer = (state: AppState, action: AppAction) => {
     case Types.VIEW_TIMELINE:
       return {
         ...state,
-        view: Views.TIMELINE,
+        ui: {
+          ...state.ui,
+          view: Views.TIMELINE,
+        },
       }
     case Types.VIEW_TIME_LAPSE:
       return {
         ...state,
-        view: Views.TIME_LAPSE,
+        ui: {
+          ...state.ui,
+          view: Views.TIME_LAPSE,
+        },
+      }
+    case Types.VISIBILITY_TOGGLE_ADD_ENTRY:
+      return {
+        ...state,
+        ui: {
+          ...state.ui,
+          addEntryIsOpen: !state.ui.addEntryIsOpen,
+        },
       }
     default:
       throw new Error(`Unknown action dispatched: ${action}`)

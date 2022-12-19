@@ -1,14 +1,15 @@
-import React, { useState, useReducer } from 'react'
+import { useReducer, createContext, Dispatch } from 'react'
 import { Views } from './models/views'
+import { UIAction } from './models/action'
+import { UIState } from './models/state'
 import { reducer, initialState } from './store/reducer'
-import { addEntry, changeViewTimeLapse, changeViewTimeline } from './store/actions'
+import { addEntry, changeViewTimeLapse, changeViewTimeline, visibilityToggleAddEntry } from './store/actions'
 import dayjs from 'dayjs'
 import { Button } from './components'
 import { TimeLapse } from './components'
 import { Timeline } from './components'
 import { AddEntry } from './components'
 import { Sort } from './icons'
-import { List } from './icons'
 import { Cross } from './icons'
 import { Add } from './icons'
 import { Hourglass } from './icons'
@@ -74,44 +75,55 @@ const entries = [
   },
 ]
 
+interface UIContextProps {
+  state: UIState
+  dispatch: Dispatch<UIAction>
+}
+export const UIContext = createContext<UIContextProps>({ state: initialState.ui, dispatch: changeViewTimeline })
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
 
   return (
-    <div className={styles.App}>
-      <header>
-        <h1>Timeline</h1>
-      </header>
-      <main className={styles.main}>
-        {
+    <UIContext.Provider value={{ state: state.ui, dispatch }}>
+      <div className={styles.App}>
+        <header>
+          <h1>Timeline</h1>
+        </header>
+        <main className={styles.main}>
           {
-            [Views.TIMELINE]: <Timeline entries={entries} />,
-            [Views.TIME_LAPSE]: <TimeLapse />,
-          }[state.view]
-        }
-        <AddEntry isOpen={isOpenModal} close={() => setIsOpenModal(false)} save={entry => dispatch(addEntry(entry))} />
-      </main>
-      <footer>
-        <p className={styles.footerText}>Syk Houdeib {dayjs().year()}</p>
-      </footer>
-      <div className={styles.filters}>
-        <Button className={styles.buttons}>
-          <Sort />
-        </Button>
-        <Button
-          className={styles.buttons}
-          onClick={() =>
-            state.view === Views.TIMELINE ? dispatch(changeViewTimeLapse()) : dispatch(changeViewTimeline())
+            {
+              [Views.TIMELINE]: <Timeline entries={entries} />,
+              [Views.TIME_LAPSE]: <TimeLapse />,
+            }[state.ui.view]
           }
-        >
-          <Hourglass />
+          <AddEntry
+            isOpen={state.ui.addEntryIsOpen}
+            close={() => dispatch(visibilityToggleAddEntry())}
+            save={entry => dispatch(addEntry(entry))}
+          />
+        </main>
+        <footer>
+          <p className={styles.footerText}>Syk Houdeib {dayjs().year()}</p>
+        </footer>
+        <div className={styles.filters}>
+          <Button className={styles.buttons}>
+            <Sort />
+          </Button>
+          <Button
+            className={styles.buttons}
+            onClick={() =>
+              state.ui.view === Views.TIMELINE ? dispatch(changeViewTimeLapse()) : dispatch(changeViewTimeline())
+            }
+          >
+            <Hourglass />
+          </Button>
+        </div>
+        <Button className={styles.addButton} isRound onClick={() => dispatch(visibilityToggleAddEntry())}>
+          {state.ui.addEntryIsOpen ? <Cross /> : <Add />}
         </Button>
       </div>
-      <Button className={styles.addButton} isRound onClick={() => setIsOpenModal(!isOpenModal)}>
-        {isOpenModal ? <Cross /> : <Add />}
-      </Button>
-    </div>
+    </UIContext.Provider>
   )
 }
 

@@ -1,5 +1,5 @@
 import { Types } from './types'
-import { AddEntryAction, ViewAction } from '@models/action'
+import { AddEntryAction, ViewAction, AddEntryVisibilityAction } from '@models/action'
 import { IEntry } from '@models/entryModel'
 
 export const addEntry = (entry: IEntry): AddEntryAction => {
@@ -20,5 +20,11 @@ export const changeViewTimeLapse = (): ViewAction => {
 export const changeViewTimeline = (): ViewAction => {
   return {
     type: Types.VIEW_TIMELINE,
+  }
+}
+
+export const visibilityToggleAddEntry = (): AddEntryVisibilityAction => {
+  return {
+    type: Types.VISIBILITY_TOGGLE_ADD_ENTRY,
   }
 }
