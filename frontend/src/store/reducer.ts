@@ -5,9 +5,11 @@ import { Types } from './types'
 
 export const initialState: AppState = {
   entry: null,
+  selectedEntry: null,
   ui: {
     view: Views.TIMELINE,
     addEntryIsOpen: false,
+    entryDetailsIsOpen: false,
   },
 }
 
@@ -40,6 +42,24 @@ export const reducer = (state: AppState, action: AppAction) => {
         ui: {
           ...state.ui,
           addEntryIsOpen: !state.ui.addEntryIsOpen,
+        },
+      }
+    case Types.SHOW_ENTRY_DETAILS:
+      return {
+        ...state,
+        selectedEntry: action.payload.entry,
+        ui: {
+          ...state.ui,
+          entryDetailsIsOpen: true,
+        },
+      }
+    case Types.HIDE_ENTRY_DETAILS:
+      return {
+        ...state,
+        selectedEntry: null,
+        ui: {
+          ...state.ui,
+          entryDetailsIsOpen: false,
         },
       }
     default:

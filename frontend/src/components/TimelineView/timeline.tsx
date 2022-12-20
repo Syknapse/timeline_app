@@ -1,5 +1,8 @@
-import { IEntry } from '@models/entryModel'
+import { useContext } from 'react'
 import clsx from 'clsx'
+import { IEntry } from '@models/entryModel'
+import { UIContext } from 'App'
+import { showEntryDetails } from '../../store/actions'
 import styles from './timeline.module.css'
 
 interface ITimelineProps {
@@ -12,6 +15,8 @@ type IYearSorted = {
 }[]
 
 const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
+  const { state, dispatch } = useContext(UIContext)
+
   if (entries.length === 0) return <div>nothing to show yet</div>
 
   // Create a new array with one object per year which has all the entries from that year. Sort in ascending
@@ -38,7 +43,10 @@ const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
               <div className={styles.date}>
                 {entry.day} {entry.month}
               </div>
-              <div className={clsx(styles.entryBody, (entry.day || entry.month) && styles.hasDate)}>
+              <div
+                className={clsx(styles.entryBody, (entry.day || entry.month) && styles.hasDate)}
+                onClick={() => dispatch(showEntryDetails(entry))}
+              >
                 <div>{entry.type}</div>
                 <div>{entry.title}</div>
               </div>
