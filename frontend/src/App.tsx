@@ -3,7 +3,7 @@ import { Views } from './models/views'
 import { UIAction } from './models/action'
 import { UIState } from './models/state'
 import { reducer, initialState } from './store/reducer'
-import * as Actions from './store/actions'
+import * as actions from './store/actions'
 import dayjs from 'dayjs'
 import { Button } from './components'
 import { TimeLapse } from './components'
@@ -80,7 +80,7 @@ interface UIContextProps {
   state: UIState
   dispatch: Dispatch<UIAction>
 }
-export const UIContext = createContext<UIContextProps>({ state: initialState.ui, dispatch: Actions.changeViewTimeline })
+export const UIContext = createContext<UIContextProps>({ state: initialState.ui, dispatch: actions.changeViewTimeline })
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -94,20 +94,20 @@ function App() {
         <main className={styles.main}>
           {
             {
-              [Views.TIMELINE]: <Timeline entries={entries} />,
+              [Views.TIMELINE]: <Timeline entries={state.data.entries} />,
               [Views.TIME_LAPSE]: <TimeLapse />,
             }[state.ui.view]
           }
           <AddEntry
             isOpen={state.ui.addEntryIsOpen}
-            close={() => dispatch(Actions.visibilityToggleAddEntry())}
-            save={entry => dispatch(Actions.addEntry(entry))}
+            close={() => dispatch(actions.visibilityToggleAddEntry())}
+            save={entry => dispatch(actions.addEntry(entry))}
           />
-          {state.selectedEntry && (
+          {state.data.selectedEntry && (
             <EntryDetails
               isOpen={state.ui.entryDetailsIsOpen}
-              entry={state.selectedEntry}
-              close={() => dispatch(Actions.hideEntryDetails())}
+              entry={state.data.selectedEntry}
+              close={() => dispatch(actions.hideEntryDetails())}
             />
           )}
         </main>
@@ -122,14 +122,14 @@ function App() {
             className={styles.buttons}
             onClick={() =>
               state.ui.view === Views.TIMELINE
-                ? dispatch(Actions.changeViewTimeLapse())
-                : dispatch(Actions.changeViewTimeline())
+                ? dispatch(actions.changeViewTimeLapse())
+                : dispatch(actions.changeViewTimeline())
             }
           >
             <Hourglass />
           </Button>
         </div>
-        <Button className={styles.addButton} isRound onClick={() => dispatch(Actions.visibilityToggleAddEntry())}>
+        <Button className={styles.addButton} isRound onClick={() => dispatch(actions.visibilityToggleAddEntry())}>
           {state.ui.addEntryIsOpen ? <Cross /> : <Add />}
         </Button>
       </div>

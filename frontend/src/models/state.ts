@@ -1,14 +1,9 @@
 import { IEntry } from '@models/entryModel'
-import { Views } from './views'
+import { Views } from '@models/views'
 
-export interface AppState {
-  entry: IEntry | null
+export interface DataState {
+  entries: IEntry[] | []
   selectedEntry: IEntry | null
-  ui: {
-    view: Views
-    addEntryIsOpen: boolean
-    entryDetailsIsOpen: boolean
-  }
 }
 
 export interface UIState {
@@ -16,4 +11,8 @@ export interface UIState {
   addEntryIsOpen: boolean
   entryDetailsIsOpen: boolean
 }
-// export type UIState = Pick<AppState, 'ui'>
+
+export interface AppState {
+  data: DataState
+  ui: UIState
+}
