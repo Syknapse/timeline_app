@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
-import localeData from 'dayjs/plugin/localeData'
+import { getTimestamp } from '../../utils/dates'
 import React from 'react'
 import { IEntry } from '@models/entryModel'
 import { Button } from '../../components'
@@ -14,34 +14,45 @@ interface IAddEntryProps {
   save: (entry: IEntry) => void
 }
 
-// const year2 = new Date(Date.UTC(1996)) // year to unix datestamp
-// const year4 = new Date(820454400000) // unix datestamp to date
-dayjs.extend(localeData)
+interface IValidations {
+  year: boolean
+  title: boolean
+  month: boolean
+}
 
 const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
-  const [entry, setEntry] = useState<IEntry>({ year: 0, title: '' })
-  const [isYearValid, setIsYearValid] = useState(false)
-  const daysInMonth = dayjs(`${entry.year}-${entry.month}-1`).daysInMonth()
+  const defaultEntry: IEntry = { timestamp: 0, year: '0', title: '' }
+  const [entry, setEntry] = useState<IEntry>(defaultEntry)
+  const daysInMonth: number | null = dayjs(`${entry.year}-${entry.month}-1`).daysInMonth() || null
+  const isValid: IValidations = {
+    year: typeof entry.year !== 'undefined' && entry.year.length === 4,
+    title: entry.title.length > 0,
+    month: typeof entry.month !== 'undefined' && entry.month.length > 0,
+  }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const resetAndClose = (): void => {
+    setEntry(defaultEntry)
     close()
   }
 
-  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEntry({ ...entry, year: Number(e.currentTarget.value) })
-    setIsYearValid(e.currentTarget.value.length === 4)
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    save({
+      ...entry,
+      timestamp: getTimestamp(entry.year, entry.month, entry.day),
+    })
+    resetAndClose()
   }
 
   return (
-    <Modal isOpen={isOpen} close={close}>
+    <Modal isOpen={isOpen} close={() => resetAndClose()}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.wrapLabel}>
           Title*:
           <input
             type="text"
             name="title"
-            placeholder="Entre title"
+            placeholder="Enter title"
             onChange={e => setEntry({ ...entry, title: e.currentTarget.value })}
           />
         </label>
@@ -54,26 +65,36 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
             placeholder="enter a year"
             min="1000"
             max="9999"
-            onChange={handleYearChange}
+            onChange={e => setEntry({ ...entry, year: e.currentTarget.value })}
           />
         </label>
         <div>
           <select
             className={styles.month}
             name="month"
-            disabled={!entry.year || !isYearValid}
+            disabled={!isValid.year}
             onChange={e => setEntry({ ...entry, month: e.currentTarget.value })}
           >
             <option value="">--Select a month--</option>
             {dayjs.months().map((month, i) => (
-              <option value={i + 1}>{month}</option>
+              <option key={`month-${i + 1}`} value={i + 1}>
+                {month}
+              </option>
             ))}
           </select>
-          <select name="day" disabled={!entry.month} onChange={e => setEntry({ ...entry, day: e.currentTarget.value })}>
+          <select
+            name="day"
+            disabled={!isValid.month}
+            onChange={e => setEntry({ ...entry, day: e.currentTarget.value })}
+          >
             <option value="">--Select a day--</option>
             {entry.month &&
               daysInMonth &&
-              Array.from(Array(daysInMonth).keys()).map(day => <option value={day + 1}>{day + 1}</option>)}
+              Array.from(Array(daysInMonth).keys()).map(day => (
+                <option key={`day-${day + 1}`} value={day + 1}>
+                  {day + 1}
+                </option>
+              ))}
           </select>
         </div>
         <label className={styles.wrapLabel}>
@@ -124,8 +145,8 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
         <Button
           className={styles.submit}
           type="submit"
-          onClick={() => save(entry)}
-          disabled={!(isYearValid && entry.title.length > 0)}
+          onClick={() => handleSubmit}
+          disabled={!(isValid.year && isValid.title)}
         >
           Save
         </Button>

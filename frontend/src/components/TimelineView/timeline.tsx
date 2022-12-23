@@ -10,7 +10,7 @@ interface ITimelineProps {
 }
 
 type IYearSorted = {
-  year: number
+  year: string
   entries: IEntry[]
 }[]
 
@@ -27,7 +27,7 @@ const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
     } else {
       acc.push({ year: cur.year, entries: [cur] })
     }
-    return acc.sort((a, b) => a.year - b.year)
+    return acc.sort((a, b) => Number(a.year) - Number(b.year))
   }, [])
 
   return (
