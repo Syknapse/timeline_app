@@ -1,4 +1,5 @@
 export interface IEntry {
+  id: string
   timestamp: number
   year: string
   title: string

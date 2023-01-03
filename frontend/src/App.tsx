@@ -98,16 +98,25 @@ function App() {
               [Views.TIME_LAPSE]: <TimeLapse />,
             }[state.ui.view]
           }
-          <AddEntry
-            isOpen={state.ui.addEntryIsOpen}
-            close={() => dispatch(actions.visibilityToggleAddEntry())}
-            save={entry => dispatch(actions.addEntry(entry))}
-          />
+          {state.ui.addEntryIsOpen && (
+            <AddEntry
+              entry={state.data.selectedEntry}
+              isOpen={state.ui.addEntryIsOpen}
+              close={() => dispatch(actions.visibilityToggleAddEntry())}
+              save={entry => dispatch(actions.addEntry(entry))}
+              edit={entry => dispatch(actions.editEntry(entry))}
+            />
+          )}
           {state.data.selectedEntry && (
             <EntryDetails
               isOpen={state.ui.entryDetailsIsOpen}
               entry={state.data.selectedEntry}
               close={() => dispatch(actions.hideEntryDetails())}
+              onEdit={() => dispatch(actions.visibilityToggleAddEntry())}
+              onDelete={id => {
+                dispatch(actions.deleteEntry(id))
+                dispatch(actions.hideEntryDetails())
+              }}
             />
           )}
         </main>

@@ -2,16 +2,18 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { getTimestamp } from '../../utils/dates'
-import React from 'react'
+import { generateID } from '../../utils/generateID'
 import { IEntry } from '@models/entryModel'
 import { Button } from '../../components'
 import { Modal } from '../../components'
 import styles from './addEntry.module.css'
 
 interface IAddEntryProps {
+  entry?: IEntry | null
   isOpen: boolean
   close: () => void
   save: (entry: IEntry) => void
+  edit: (entry: IEntry) => void
 }
 
 interface IValidations {
@@ -20,8 +22,8 @@ interface IValidations {
   month: boolean
 }
 
-const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
-  const defaultEntry: IEntry = { timestamp: 0, year: '0', title: '' }
+const AddEntry: React.FC<IAddEntryProps> = ({ entry: _entry, isOpen, close, save, edit }) => {
+  const defaultEntry: IEntry = _entry || { id: '1', timestamp: 0, year: '0', title: '' }
   const [entry, setEntry] = useState<IEntry>(defaultEntry)
   const daysInMonth: number | null = dayjs(`${entry.year}-${entry.month}-1`).daysInMonth() || null
   const isValid: IValidations = {
@@ -37,15 +39,21 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    save({
-      ...entry,
-      timestamp: getTimestamp(entry.year, entry.month, entry.day),
-    })
+    entry.id && entry.id !== '1'
+      ? edit({
+          ...entry,
+          timestamp: getTimestamp(entry.year, entry.month, entry.day),
+        })
+      : save({
+          ...entry,
+          id: generateID(),
+          timestamp: getTimestamp(entry.year, entry.month, entry.day),
+        })
     resetAndClose()
   }
 
   return (
-    <Modal isOpen={isOpen} close={() => resetAndClose()}>
+    <Modal className={styles.modal} isOpen={isOpen} close={() => resetAndClose()}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <label className={styles.wrapLabel}>
           Title*:
@@ -53,6 +61,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
             type="text"
             name="title"
             placeholder="Enter title"
+            value={entry.title}
             onChange={e => setEntry({ ...entry, title: e.currentTarget.value })}
           />
         </label>
@@ -65,6 +74,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
             placeholder="enter a year"
             min="1000"
             max="9999"
+            value={entry.year !== '0' ? entry.year : ''}
             onChange={e => setEntry({ ...entry, year: e.currentTarget.value })}
           />
         </label>
@@ -73,6 +83,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
             className={styles.month}
             name="month"
             disabled={!isValid.year}
+            value={entry.month}
             onChange={e => setEntry({ ...entry, month: e.currentTarget.value })}
           >
             <option value="">--Select a month--</option>
@@ -85,6 +96,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
           <select
             name="day"
             disabled={!isValid.month}
+            value={entry.day}
             onChange={e => setEntry({ ...entry, day: e.currentTarget.value })}
           >
             <option value="">--Select a day--</option>
@@ -103,6 +115,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
             type="text"
             name="subtitle"
             placeholder="Enter subtitle"
+            value={entry.subtitle ? entry.subtitle : ''}
             onChange={e => setEntry({ ...entry, subtitle: e.currentTarget.value })}
           />
         </label>
@@ -111,6 +124,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ isOpen, close, save }) => {
           placeholder="Description..."
           cols={30}
           rows={10}
+          value={entry.description}
           onChange={e => setEntry({ ...entry, description: e.currentTarget.value })}
         />
         <label>

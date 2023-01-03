@@ -6,6 +6,16 @@ export type AddEntryAction = {
   payload: { entry: IEntry }
 }
 
+export type EditEntry = {
+  type: Types.EDIT_ENTRY
+  payload: { entry: IEntry }
+}
+
+export type DeleteEntry = {
+  type: Types.DELETE_ENTRY
+  payload: { id: string }
+}
+
 export type AddEntryVisibilityAction = {
   type: Types.VISIBILITY_TOGGLE_ADD_ENTRY
 }
@@ -25,4 +35,4 @@ export type ViewAction = {
 
 export type UIAction = ViewAction | AddEntryVisibilityAction | ShowEntryDetails | HideEntryDetails
 
-export type AppAction = AddEntryAction | UIAction
+export type AppAction = AddEntryAction | EditEntry | DeleteEntry | UIAction

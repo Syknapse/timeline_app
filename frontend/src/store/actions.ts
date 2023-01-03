@@ -11,6 +11,24 @@ export const addEntry = (entry: IEntry): ActionModels.AddEntryAction => {
   }
 }
 
+export const editEntry = (entry: IEntry): ActionModels.EditEntry => {
+  return {
+    type: Types.EDIT_ENTRY,
+    payload: {
+      entry,
+    },
+  }
+}
+
+export const deleteEntry = (id: string): ActionModels.DeleteEntry => {
+  return {
+    type: Types.DELETE_ENTRY,
+    payload: {
+      id,
+    },
+  }
+}
+
 export const changeViewTimeLapse = (): ActionModels.ViewAction => {
   return {
     type: Types.VIEW_TIME_LAPSE,

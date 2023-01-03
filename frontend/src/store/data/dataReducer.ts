@@ -9,6 +9,17 @@ export const dataReducer = (state: AppState['data'], action: AppAction) => {
         ...state,
         entries: [...state.entries, action.payload.entry],
       }
+    case Types.EDIT_ENTRY:
+      return {
+        ...state,
+        entries: state.entries.map(entry => (entry.id === action.payload.entry.id ? action.payload.entry : entry)),
+        selectedEntry: action.payload.entry,
+      }
+    case Types.DELETE_ENTRY:
+      return {
+        ...state,
+        entries: state.entries.filter(entry => entry.id !== action.payload.id),
+      }
     case Types.SHOW_ENTRY_DETAILS:
       return {
         ...state,
