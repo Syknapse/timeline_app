@@ -1,0 +1,43 @@
+.entry {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.date {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 0.8rem;
+  text-align: right;
+  width: 4.5rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+}
+
+.dot {
+  font-size: 0.5rem;
+}
+
+.entryBody {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem;
+  margin-left: 0.8rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.entryBody::after {
+  content: '';
+  position: absolute;
+  left: -13px;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 10px solid gray;
+}
+
+.category {
+  padding-right: 0.5rem;
+}

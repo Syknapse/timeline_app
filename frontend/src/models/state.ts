@@ -1,4 +1,4 @@
-import { IEntry } from '@models/entryModel'
+import { IEntry } from '../models/entryModels'
 import { Views } from '@models/views'
 
 export interface DataState {

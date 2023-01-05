@@ -1,5 +1,7 @@
 import clsx from 'clsx'
-import { IEntry } from '@models/entryModel'
+import dayjs from 'dayjs'
+import { IEntry } from '../../models/entryModels'
+import { getTimeFromNow } from '../../utils/dates'
 import { Pencil } from '../../icons'
 import { Trash } from '../../icons'
 import { Button } from '../../components'
@@ -26,15 +28,18 @@ const EntryDetails: React.FC<IEntryDetailsProps> = ({ isOpen, entry, close, onEd
         </Button>
       </div>
       <div className={styles.rows}>
-        <div className={styles.year}>{entry.year}</div>
-        <div>Time Since: __</div>
+        <div>
+          <p className={styles.year}>{entry.year}</p>
+          <p>{(entry.day || entry.month) && dayjs(entry.timestamp).format(`MMMM${entry.day ? ' D' : ''}`)}</p>
+        </div>
+        <p>{getTimeFromNow(entry.timestamp)}</p>
       </div>
       <h3 className={clsx(styles.text, styles.title)}>{entry.title}</h3>
       {entry.subtitle && <p className={styles.text}>{entry.subtitle}</p>}
       {entry.description && <div className={clsx(styles.text, styles.description)}>{entry.description}</div>}
       <div className={styles.rows}>
-        <div>Type: {entry.type}</div>
-        <div>Color: {entry.color}</div>
+        <p title={entry.category?.description}>Category: {entry.category?.icon}</p>
+        <p>Color: {entry.color}</p>
       </div>
     </Modal>
   )

@@ -1,5 +1,5 @@
 import { Types } from 'store/types'
-import { IEntry } from '@models/entryModel'
+import { IEntry } from '../models/entryModels'
 
 export type AddEntryAction = {
   type: Types.ADD_ENTRY

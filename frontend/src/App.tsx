@@ -16,66 +16,6 @@ import { Add } from './icons'
 import { Hourglass } from './icons'
 import styles from './App.module.css'
 
-const entries = [
-  {
-    year: 1991,
-    day: '13',
-    month: 'Feb',
-    type: 'life event',
-    title: 'a chicken was born',
-  },
-  {
-    year: 1988,
-    type: 'life event',
-    title: '80s stuff',
-  },
-  {
-    year: 2000,
-    type: 'Home',
-    title: 'MOved to Grimsby',
-  },
-  {
-    year: 1991,
-    month: 'Feb',
-    type: 'life event',
-    title: 'scored a goal',
-  },
-  {
-    year: 1991,
-    day: '21',
-    month: 'Mar',
-    type: 'life event',
-    title: 'pumpkin revolt',
-  },
-  {
-    year: 2012,
-    type: 'life event',
-    title: 'end of the world',
-  },
-  {
-    year: 2000,
-    day: '17',
-    month: 'Nov',
-    type: 'Home',
-    title: 'ate spinach',
-  },
-  {
-    year: 1997,
-    type: 'life event',
-    title: 'threw a rock',
-  },
-  {
-    year: 2012,
-    type: 'life event',
-    title: 'forgotten year',
-  },
-  {
-    year: 2001,
-    type: 'Home',
-    title: 'danced the macarena',
-  },
-]
-
 interface UIContextProps {
   state: UIState
   dispatch: Dispatch<UIAction>

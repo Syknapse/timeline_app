@@ -3,7 +3,8 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { getTimestamp } from '../../utils/dates'
 import { generateID } from '../../utils/generateID'
-import { IEntry } from '@models/entryModel'
+import { IEntry } from '../../models/entryModels'
+import { Categories } from '../../models/entryModels'
 import { Button } from '../../components'
 import { Modal } from '../../components'
 import styles from './addEntry.module.css'
@@ -20,6 +21,38 @@ interface IValidations {
   year: boolean
   title: boolean
   month: boolean
+}
+
+type EntryCategory = Required<Pick<IEntry, 'category'>>
+type IEntryCategories = {
+  [key in Categories]: EntryCategory[keyof EntryCategory]
+}
+
+const entryCategories: IEntryCategories = {
+  [Categories.HOME]: {
+    icon: '🏡',
+    description: 'Home',
+  },
+  [Categories.LIFE_EVENT]: {
+    icon: '💥',
+    description: 'Life event',
+  },
+  [Categories.JOB]: {
+    icon: '🛠️',
+    description: 'Job',
+  },
+  [Categories.FAMILY]: {
+    icon: '👪',
+    description: 'Family',
+  },
+  [Categories.TRAVEL]: {
+    icon: '🌍',
+    description: 'Travel',
+  },
+  [Categories.GENERAL]: {
+    icon: '⭐️',
+    description: 'General',
+  },
 }
 
 const AddEntry: React.FC<IAddEntryProps> = ({ entry: _entry, isOpen, close, save, edit }) => {
@@ -88,7 +121,7 @@ const AddEntry: React.FC<IAddEntryProps> = ({ entry: _entry, isOpen, close, save
           >
             <option value="">--Select a month--</option>
             {dayjs.months().map((month, i) => (
-              <option key={`month-${i + 1}`} value={i + 1}>
+              <option key={`month-${month}`} value={month}>
                 {month}
               </option>
             ))}
@@ -128,18 +161,18 @@ const AddEntry: React.FC<IAddEntryProps> = ({ entry: _entry, isOpen, close, save
           onChange={e => setEntry({ ...entry, description: e.currentTarget.value })}
         />
         <label>
-          Type:
+          Category:
           <select
             className={clsx(styles.mediumField, styles.rightAligned)}
             name="type"
-            onChange={e => setEntry({ ...entry, type: e.currentTarget.value })}
+            onChange={e => setEntry({ ...entry, category: entryCategories[e.currentTarget.value as Categories] })}
           >
-            <option value="">--Select a type--</option>
-            <option value="home">home</option>
-            <option value="life event">life event</option>
-            <option value="job">job</option>
-            <option value="family">family</option>
-            <option value="general">general</option>
+            <option value="">--Select a category--</option>
+            {Object.entries(entryCategories).map(([name, data]) => (
+              <option key={name} value={name}>
+                {data.icon} {data.description}
+              </option>
+            ))}
           </select>
         </label>
         <label>

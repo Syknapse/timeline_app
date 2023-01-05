@@ -1,6 +1,6 @@
 import { Types } from './types'
-import * as ActionModels from '@models/action'
-import { IEntry } from '@models/entryModel'
+import * as ActionModels from '../models/action'
+import { IEntry } from '../models/entryModels'
 
 export const addEntry = (entry: IEntry): ActionModels.AddEntryAction => {
   return {

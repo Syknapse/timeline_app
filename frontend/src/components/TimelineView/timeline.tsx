@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import clsx from 'clsx'
-import { IEntry } from '@models/entryModel'
+import { IEntry } from '../../models/entryModels'
 import { UIContext } from 'App'
 import { showEntryDetails } from '../../store/actions'
+import { TimelineEntry } from '../../components'
 import styles from './timeline.module.css'
 
 interface ITimelineProps {
@@ -39,18 +39,7 @@ const Timeline: React.FC<ITimelineProps> = ({ entries }) => {
           </div>
 
           {yearGroup.entries.map((entry, i) => (
-            <div key={`${entry.year}-${i}`} className={styles.entry}>
-              <div className={styles.date}>
-                {entry.day} {entry.month}
-              </div>
-              <div
-                className={clsx(styles.entryBody, (entry.day || entry.month) && styles.hasDate)}
-                onClick={() => dispatch(showEntryDetails(entry))}
-              >
-                <div>{entry.type}</div>
-                <div>{entry.title}</div>
-              </div>
-            </div>
+            <TimelineEntry key={`${entry.year}-${i}`} entry={entry} open={() => dispatch(showEntryDetails(entry))} />
           ))}
         </section>
       ))}
