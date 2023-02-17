@@ -9,7 +9,8 @@
   content: '';
   position: absolute;
   height: 160%;
-  border-left: 6px solid rgb(242 67 67 / 90%);
+  /* border-left: 6px solid rgb(242 67 67 / 90%); */
+  border-left: 6px solid var(--primary);
   top: -20px;
   left: 52px;
 }
@@ -24,5 +25,6 @@
   font-weight: 700;
   width: 3.5rem;
   padding: 0.25rem;
-  border-bottom: 1px solid red;
+  /* border-bottom: 1px solid red; */
+  border-bottom: 1px solid var(--primary);
 }

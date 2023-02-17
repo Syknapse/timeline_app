@@ -3,8 +3,10 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import { getTimestamp } from '../../utils/dates'
 import { generateID } from '../../utils/generateID'
+import { capitalize } from '../../utils/capitalize'
 import { IEntry } from '../../models/entryModels'
 import { Categories } from '../../models/entryModels'
+import { Colors } from '../../models/entryModels'
 import { Button } from '../../components'
 import { Modal } from '../../components'
 import styles from './addEntry.module.css'
@@ -183,10 +185,9 @@ const AddEntry: React.FC<IAddEntryProps> = ({ entry: _entry, isOpen, close, save
             onChange={e => setEntry({ ...entry, color: e.currentTarget.value })}
           >
             <option value="">--Select a color--</option>
-            <option value="#ec1414">red</option>
-            <option value="#142aec">purple</option>
-            <option value="#14ec62">green</option>
-            <option value="#ece414">yellow</option>
+            {Object.entries(Colors).map(([color, code]) => (
+              <option value={code}>{capitalize(color)}</option>
+            ))}
           </select>
         </label>
         <Button

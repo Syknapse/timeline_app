@@ -24,3 +24,10 @@ export enum Categories {
   TRAVEL = 'TRAVEL',
   GENERAL = 'GENERAL',
 }
+
+export enum Colors {
+  red = '#ec1414',
+  purple = '#142aec',
+  green = '#14ec62',
+  yellow = '#ece414',
+}
